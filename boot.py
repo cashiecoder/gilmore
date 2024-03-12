@@ -1,17 +1,7 @@
 from time import sleep
 import os
 
-boot_dots = 5
-dot_sleep = 1
-
-banner = r"""
-┌─────────────────────────────────────────────────────────┐
-│  ____ _ _                             ____ _      _     │
-│ / ___(_) |_ __ ___   ___  _ __ ___   / ___(_)_ __| |___ │
-│| |  _| | | '_ ` _ \ / _ \| '__/ _ \ | |  _| | '__| / __|│
-│| |_| | | | | | | | | (_) | | |  __/ | |_| | | |  | \__ \│
-│ \____|_|_|_| |_| |_|\___/|_|  \___|  \____|_|_|  |_|___/│
-└─────────────────────────────────────────────────────────┘"""
+from variables import dot_sleep, boot_dots, banner
 
 def lbl(text, time):
     # Split the text into lines using splitlines()
@@ -48,4 +38,5 @@ def boot(boot_dots, banner):
     cbc("\nPlease wait...", time=0.1)
     sleep(3)
 
-boot(boot_dots, banner)
+def boot_main():
+    boot(boot_dots, banner)
