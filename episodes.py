@@ -1,7 +1,6 @@
 from info import info
 import json
 import re
-import os
 from simple_term_menu import TerminalMenu
 
 def episodes(season):
