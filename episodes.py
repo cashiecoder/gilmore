@@ -39,7 +39,7 @@ def episodes(season):
             else:
                 selection = remove_prefix(selection)
                 ep_num = get_episode_number(selection, metadata)
-                info(ep_num, metadata)
+                info(ep_num, metadata, season)
             
     except KeyboardInterrupt:
         seasons()

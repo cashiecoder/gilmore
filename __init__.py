@@ -4,6 +4,6 @@ from seasons import seasons
 
 check_width()
 
-boot_main()
+"""boot_main()"""
 
 seasons()
