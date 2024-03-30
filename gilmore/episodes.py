@@ -4,7 +4,7 @@ import re
 from simple_term_menu import TerminalMenu
 import os
 
-def episodes(season):
+def episodes(season, main):
     from .seasons import seasons
     def get_episode_number(episode_name, metadata):
         for key, value in metadata.items():
@@ -40,7 +40,7 @@ def episodes(season):
             else:
                 selection = remove_prefix(selection)
                 ep_num = get_episode_number(selection, metadata)
-                info(ep_num, metadata, season)
+                info(ep_num, metadata, season, main)
             
     except KeyboardInterrupt:
-        seasons()
+        seasons(main)

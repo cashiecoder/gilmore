@@ -3,7 +3,6 @@ from simple_term_menu import TerminalMenu
 import pickle
 import subprocess
 import os
-import youtube.channel as channel
 
 class ShutdownException(Exception):
     pass
@@ -14,7 +13,8 @@ def shutdown_with_password():
     command = 'echo %s | sudo -S shutdown now > /dev/null 2>&1' % password
     subprocess.run(command, shell=True)
 
-def main(menu):
+def main():
+    import youtube.channel as channel
     options = ["Gilmore Girls", "YouTube", "Bluetooth", "Shutdown"]
     terminal_menu = TerminalMenu(options, clear_screen=False, cycle_cursor=False, menu_cursor=None, title="Gilmore Girls Seasons")
     try:
@@ -29,13 +29,13 @@ def main(menu):
                 if selection == "Gilmore Girls":
                     seasons(main)
                 elif selection == "YouTube":
-                    menu(main)
+                    channel(main)
     except KeyboardInterrupt:
         main()
     except ShutdownException:
-        shutdown_with_password()
+        #shutdown_with_password()
+        os._exit(0)
     except Exception as e:
         print(e)
 
-main(channel)
-variable = "someting"
+main()

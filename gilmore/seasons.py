@@ -16,21 +16,21 @@ def seasons(main):
                 raise KeyboardInterrupt
             else:
                 if selection.endswith("1"):
-                    episodes("s1")
+                    episodes("s1", main)
                 elif selection.endswith("2"):
-                    episodes("s2")
+                    episodes("s2", main)
                 elif selection.endswith("3"):
-                    episodes("s3")
+                    episodes("s3", main)
                 elif selection.endswith("4"):
-                    episodes("s4")
+                    episodes("s4", main)
                 elif selection.endswith("5"):
-                    episodes("s5")
+                    episodes("s5", main)
                 elif selection.endswith("6"):
-                    episodes("s6")
+                    episodes("s6", main)
                 elif selection.endswith("7"):
-                    episodes("s7")
+                    episodes("s7", main)
                 elif selection == "A Year in the Life":
-                    episodes("ayitl")
+                    episodes("ayitl", main)
                 else:
                     return
     except KeyboardInterrupt:

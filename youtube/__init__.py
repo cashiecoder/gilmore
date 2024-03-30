@@ -1,1 +1,1 @@
-from .channel import menu
+from .channel import channel

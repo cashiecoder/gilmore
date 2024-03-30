@@ -25,23 +25,44 @@ def get_video_id(video_dict, title_text):
             return video["videoId"]
     return None  # If the title text is not found in any video entry
 
-video_util = scrapetube.get_channel("UCMiJRAwDNSNzuYeN2uWa0pA", limit=100)
-video_md, video_names = [], []
+def videos(channel, channels, main):
+    video_util = scrapetube.get_channel(channel_username=channel, limit=50)
+    video_md, video_names = [], []
 
-for video_data in video_util:
-    video_md.append(video_data)
+    for video_data in video_util:
+        video_md.append(video_data)
 
-video_md = video_md[:10]
+    video_md = video_md[:10]
 
-for video in video_md:
-    video_names.append(video["title"]["runs"][0]["text"])
+    for video in video_md:
+        video_names.append(video["title"]["runs"][0]["text"])
+    video_names.append("")
+    video_names.append("Back")
+    terminal_menu = TerminalMenu(video_names, clear_screen=False, cycle_cursor=False, menu_cursor=None, skip_empty_entries=True)
+    try:
+        while True:
+            menu_entry_index = terminal_menu.show()
+            if menu_entry_index is None:
+                raise KeyboardInterrupt
+            video_id = get_video_id(video_md, video_names[menu_entry_index])
+            if video_id == "Back":
+                raise KeyboardInterrupt
+            yt = YouTube(f'https://youtube.com/watch?v={video_id}')
+            stream = yt.streams.first()
+            description = yt.description
+            newline_index = description.find('\n')
+            print(format(description[:newline_index]))
+            stream.download(filename="video.mp4",)
+    except KeyboardInterrupt:
+            channels()
+    except Exception as e:
+        print(e)
 
-terminal_menu = TerminalMenu(video_names, clear_screen=False, cycle_cursor=False, menu_cursor=None)
-menu_entry_index = terminal_menu.show()
-video_id = get_video_id(video_md, video_names[menu_entry_index])
-yt = YouTube(f'https://youtube.com/watch?v={video_id}')
-stream = yt.streams.first()
-description = yt.description
-newline_index = description.find('\n')
-print(description[:newline_index])
-stream.download(filename="video.mp4")
+    menu_entry_index = terminal_menu.show()
+    video_id = get_video_id(video_md, video_names[menu_entry_index])
+    yt = YouTube(f'https://youtube.com/watch?v={video_id}')
+    stream = yt.streams.first()
+    description = yt.description
+    newline_index = description.find('\n')
+    print(format(description[:newline_index]))
+    stream.download(filename="video.mp4",)
