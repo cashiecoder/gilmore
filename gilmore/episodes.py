@@ -1,10 +1,11 @@
-from info import info
+from .info import info
 import json
 import re
 from simple_term_menu import TerminalMenu
+import os
 
 def episodes(season):
-    from seasons import seasons
+    from .seasons import seasons
     def get_episode_number(episode_name, metadata):
         for key, value in metadata.items():
             if value["name"] == episode_name:
@@ -17,7 +18,7 @@ def episodes(season):
         result = re.sub(pattern, '', string)
         return result
     
-    with open(f'./{season}.json') as json_file:
+    with open(f'{os.getcwd()}/assets/gilmore/json/{season}.json') as json_file:
         metadata = json.load(json_file)
     names, list = [], []
     for _, episode_info in metadata.items():

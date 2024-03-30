@@ -47,8 +47,8 @@ def boot(boot_dots, banner):
     bootscreen(boot_dots)
     os.system('clear')
     lbl(banner, time=0.2)
-    cbc("\nPlease wait...", time=0.1)
-    sleep(3)
+    #cbc("\nPlease wait...", time=0.1)
+    #sleep(3)
 
 def boot_main():
     boot(boot_dots, banner)
