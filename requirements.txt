@@ -1,2 +1,4 @@
 simple_term_menu
 omxplayer-wrapper
+scrapetube
+pytube

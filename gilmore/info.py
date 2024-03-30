@@ -4,6 +4,8 @@ from simple_term_menu import TerminalMenu
 from omxplayer.player import OMXPlayer
 from pathlib import Path
 from time import sleep
+import pickle
+import os
 
 def format(s, max_line_length=50):
     words = s.split()  # Split the string into words
@@ -30,9 +32,8 @@ def format_seconds(seconds):
         minutes = math.floor(minutes)
     return f"{minutes} Minutes"
 
-
 def info(ep_num, metadata, season):
-    from episodes import episodes
+    from .episodes import episodes
     episode_info = metadata[f"e{ep_num}"]["info"]
     episode_info = format(episode_info)
     length = metadata[f"e{ep_num}"]["length"]
@@ -42,7 +43,10 @@ def info(ep_num, metadata, season):
     print(f"Current position: {format_seconds(current_pos)}\n")
     options = ["Resume", "Restart", "", "Back"]
     terminal_menu = TerminalMenu(options, clear_screen=False, cycle_cursor=False, menu_cursor=None, skip_empty_entries=True)
-    VIDEO_PATH = Path(f"./{season}e{ep_num}")
+    VIDEO_PATH = Path(f"{os.getcwd()}/assets/gilmore/video/{season}e{ep_num}")
+    with open(f"{os.getcwd()}/assets/variables/bluetooth.pickle", "rb") as bt:
+        bluetooth = pickle.load(bt)
+    
     try:
         while True:
             menu_entry_index = terminal_menu.show()
@@ -52,12 +56,20 @@ def info(ep_num, metadata, season):
             if selection == "Back":
                 raise KeyboardInterrupt
             elif selection == "Restart":
-                player = OMXPlayer(VIDEO_PATH)
+                if bluetooth:
+                    player = OMXPlayer(VIDEO_PATH, args="-o alsa")
+                else:
+                    player = OMXPlayer(VIDEO_PATH, args="-o hdmi")
                 sleep(length + 1)
                 player.quit()
             elif selection == "Resume":
-                player = OMXPlayer(VIDEO_PATH)
-                sleep(length - current_pos + 1)
+                if bluetooth:
+                    player = OMXPlayer(VIDEO_PATH, args="-o alsa")
+                    player.set_position(current_pos-10)
+                else:
+                    player = OMXPlayer(VIDEO_PATH, args="-o hdmi")
+                    player.set_position(current_pos-10)
+                sleep(length - current_pos - 10 + 1)
                 player.quit()
     except KeyboardInterrupt:
         episodes(season)
